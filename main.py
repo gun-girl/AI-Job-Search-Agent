@@ -1,5 +1,7 @@
-
 from fastapi import FastAPI
+
+from app.routers import jobs
+
 
 # Create the FastAPI application
 app = FastAPI(
@@ -7,6 +9,10 @@ app = FastAPI(
     description="An AI-powered assistant for finding and evaluating job opportunities.",
     version="0.1.0"
 )
+
+
+# Register API routers
+app.include_router(jobs.router)
 
 
 # First endpoint: Welcome message
