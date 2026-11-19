@@ -61,3 +61,26 @@ def delete_job(job_id: int, db: Session = Depends(get_db)):
         "message": "Job deleted successfully",
         "job_id": job_id
     }
+# Update an existing job
+@router.put("/{job_id}", response_model=JobResponse)
+def update_job(
+    job_id: int,
+    job_data: JobCreate,
+    db: Session = Depends(get_db)
+):
+    job = db.query(Job).filter(Job.id == job_id).first()
+
+    if job is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Job not found"
+        )
+
+    # Update the job fields
+    for field, value in job_data.model_dump().items():
+        setattr(job, field, value)
+
+    db.commit()
+    db.refresh(job)
+
+    return job
