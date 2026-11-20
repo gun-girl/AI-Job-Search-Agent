@@ -21,7 +21,6 @@ class JobResponse(JobCreate):
     model_config = ConfigDict(from_attributes=True)
 
 
-from pydantic import Field
 
 
 class CandidateProfileCreate(BaseModel):
@@ -51,3 +50,16 @@ class CandidateProfileResponse(CandidateProfileCreate):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class JobMatchResponse(BaseModel):
+    job: JobResponse
+
+    match_score: int
+    matched_skills: list[str]
+    missing_skills: list[str]
+
+    title_match: bool
+    experience_match: bool | None
+
+    explanations: list[str]
