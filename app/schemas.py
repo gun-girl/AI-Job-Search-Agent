@@ -6,11 +6,26 @@ from pydantic import BaseModel, ConfigDict, Field
 class JobCreate(BaseModel):
     title: str
     company: str
+
     location: str | None = None
     description: str | None = None
     requirements: str | None = None
+
     application_url: str | None = None
     source: str | None = None
+
+    employment_type: str | None = None
+    work_mode: str | None = None
+    experience_level: str | None = None
+
+    required_languages: list[str] = Field(default_factory=list)
+
+    salary_min: int | None = None
+    salary_max: int | None = None
+    salary_currency: str = "EUR"
+
+    application_deadline: datetime | None = None
+    published_at: datetime | None = None
 
 
 # Fields returned when reading a job
@@ -56,10 +71,20 @@ class JobMatchResponse(BaseModel):
     job: JobResponse
 
     match_score: int
+
     matched_skills: list[str]
     missing_skills: list[str]
 
     title_match: bool
     experience_match: bool | None
+
+    employment_type_match: bool | None
+    work_mode_match: bool | None
+
+    language_match: bool | None
+    matched_languages: list[str]
+    missing_languages: list[str]
+
+    salary_match: bool | None
 
     explanations: list[str]

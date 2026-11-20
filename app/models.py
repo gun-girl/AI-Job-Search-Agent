@@ -49,4 +49,17 @@ class Job(Base):
     application_url = Column(String(1000), nullable=True)
     source = Column(String(100), nullable=True)
 
+    employment_type = Column(String(100), nullable=True)
+    work_mode = Column(String(100), nullable=True)
+    experience_level = Column(String(100), nullable=True)
+
+    required_languages = Column(JSON, default=list, nullable=False)
+
+    salary_min = Column(Integer, nullable=True)
+    salary_max = Column(Integer, nullable=True)
+    salary_currency = Column(String(10), default="EUR")
+
+    application_deadline = Column(DateTime(timezone=True), nullable=True)
+    published_at = Column(DateTime(timezone=True), nullable=True)
+
     created_at = Column(DateTime(timezone=True), server_default=func.now())
