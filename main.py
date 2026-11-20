@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI
 
-from app.routers import jobs, profiles, matches
+from app.routers import jobs, profiles, matches, search
 
 
 # Create the FastAPI application
@@ -16,6 +16,7 @@ app = FastAPI(
 app.include_router(jobs.router)
 app.include_router(profiles.router)
 app.include_router(matches.router)
+app.include_router(search.router)
 
 
 # First endpoint: Welcome message
