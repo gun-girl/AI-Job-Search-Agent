@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from app.routers import profile_search
 from app.routers import external_jobs
 
+from app.routers import email_notifications
+
 from app.routers import (
     jobs,
     profiles,
@@ -27,7 +29,7 @@ app.include_router(search.router)
 app.include_router(ai_evaluations.router)
 app.include_router(profile_search.router)
 app.include_router(external_jobs.router)
-
+app.include_router(email_notifications.router)
 
 # First endpoint: Welcome message
 @app.get("/")
