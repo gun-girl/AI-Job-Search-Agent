@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime
+from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean
 from sqlalchemy.sql import func
 
 from app.database import Base
@@ -18,18 +18,28 @@ class CandidateProfile(Base):
     skills = Column(JSON, default=list, nullable=False)
     languages = Column(JSON, default=list, nullable=False)
 
+    # Flexible job preferences
     preferred_job_titles = Column(JSON, default=list, nullable=False)
+    preferred_job_categories = Column(JSON, default=list, nullable=False)
+    preferred_keywords = Column(JSON, default=list, nullable=False)
+
+    # Required location filters
     preferred_countries = Column(JSON, default=list, nullable=False)
     preferred_cities = Column(JSON, default=list, nullable=False)
 
-    experience_level = Column(String(100), nullable=True)
-
+    # Required filters
+    experience_levels = Column(JSON, default=list, nullable=False)
     employment_types = Column(JSON, default=list, nullable=False)
     work_modes = Column(JSON, default=list, nullable=False)
 
     salary_min = Column(Integer, nullable=True)
     salary_max = Column(Integer, nullable=True)
     salary_currency = Column(String(10), default="EUR")
+
+    # Individual notification settings
+    email = Column(String(320), nullable=True)
+    email_notifications_enabled = Column(Boolean, default=False, nullable=False)
+    minimum_match_score = Column(Integer, default=75, nullable=False)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
@@ -61,6 +71,23 @@ class Job(Base):
 
     application_deadline = Column(DateTime(timezone=True), nullable=True)
     published_at = Column(DateTime(timezone=True), nullable=True)
+
+    country = Column(String(100), nullable=True)
+    city = Column(String(100), nullable=True)
+
+    job_category = Column(String(100), nullable=True)
+
+    experience_level = Column(String(100), nullable=True)
+    employment_type = Column(String(100), nullable=True)
+    work_mode = Column(String(100), nullable=True)
+
+    required_languages = Column(JSON, default=list, nullable=False)
+
+    salary_min = Column(Integer, nullable=True)
+    salary_max = Column(Integer, nullable=True)
+    salary_currency = Column(String(10), nullable=True)
+
+    application_deadline = Column(DateTime(timezone=True), nullable=True)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

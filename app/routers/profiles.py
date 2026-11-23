@@ -2,6 +2,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from app.services import profile_service
+from app.schemas import CandidateProfileCreate, CandidateProfileResponse
+
 from app.database import get_db
 from app.schemas import (
     CandidateProfileCreate,
@@ -47,3 +50,24 @@ def create_profile(
     db: Session = Depends(get_db)
 ):
     return profile_service.create_profile(db, profile_data)
+
+
+@router.put("/{profile_id}", response_model=CandidateProfileResponse)
+def update_candidate_profile(
+    profile_id: int,
+    profile_data: CandidateProfileCreate,
+    db: Session = Depends(get_db)
+):
+    profile = profile_service.update_profile(
+        db,
+        profile_id,
+        profile_data
+    )
+
+    if not profile:
+        raise HTTPException(
+            status_code=404,
+            detail="Candidate profile not found"
+        )
+
+    return profile

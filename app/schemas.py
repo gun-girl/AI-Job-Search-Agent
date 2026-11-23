@@ -1,31 +1,35 @@
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, EmailStr
 
 
 # Fields required when creating a job
 class JobCreate(BaseModel):
     title: str
     company: str
-
     location: str | None = None
-    description: str | None = None
-    requirements: str | None = None
 
-    application_url: str | None = None
-    source: str | None = None
+    country: str | None = None
+    city: str | None = None
 
+    job_category: str | None = None
+
+    experience_level: str | None = None
     employment_type: str | None = None
     work_mode: str | None = None
-    experience_level: str | None = None
 
     required_languages: list[str] = Field(default_factory=list)
 
     salary_min: int | None = None
     salary_max: int | None = None
-    salary_currency: str = "EUR"
+    salary_currency: str | None = "EUR"
 
     application_deadline: datetime | None = None
-    published_at: datetime | None = None
+
+    description: str | None = None
+    requirements: str | None = None
+
+    application_url: str | None = None
+    source: str | None = None
 
 
 # Fields returned when reading a job
@@ -46,18 +50,29 @@ class CandidateProfileCreate(BaseModel):
     skills: list[str] = Field(default_factory=list)
     languages: list[str] = Field(default_factory=list)
 
+    # Flexible job preferences
     preferred_job_titles: list[str] = Field(default_factory=list)
+    preferred_job_categories: list[str] = Field(default_factory=list)
+    preferred_keywords: list[str] = Field(default_factory=list)
+
+    # Location preferences
     preferred_countries: list[str] = Field(default_factory=list)
     preferred_cities: list[str] = Field(default_factory=list)
 
-    experience_level: str | None = None
-
+    # Required filters
+    experience_levels: list[str] = Field(default_factory=list)
     employment_types: list[str] = Field(default_factory=list)
     work_modes: list[str] = Field(default_factory=list)
 
+    # Salary preferences
     salary_min: int | None = None
     salary_max: int | None = None
     salary_currency: str = "EUR"
+
+    # Email notification settings
+    email: EmailStr | None = None
+    email_notifications_enabled: bool = False
+    minimum_match_score: int = Field(default=75, ge=0, le=100)
 
 
 class CandidateProfileResponse(CandidateProfileCreate):
