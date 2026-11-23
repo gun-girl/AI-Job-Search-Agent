@@ -88,3 +88,26 @@ class JobMatchResponse(BaseModel):
     salary_match: bool | None
 
     explanations: list[str]
+
+
+class AIJobEvaluationResult(BaseModel):
+    profile_id: int
+    job_id: int
+
+    match_score: int
+    summary: str
+
+    matched_requirements: list[str]
+    missing_requirements: list[str]
+
+    strengths: list[str]
+    concerns: list[str]
+
+    recommendation: str
+
+
+class AIJobEvaluationResponse(AIJobEvaluationResult):
+    id: int
+    evaluated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)

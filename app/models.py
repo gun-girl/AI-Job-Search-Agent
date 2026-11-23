@@ -63,3 +63,28 @@ class Job(Base):
     published_at = Column(DateTime(timezone=True), nullable=True)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class AIJobEvaluation(Base):
+    __tablename__ = "ai_job_evaluations"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    profile_id = Column(Integer, nullable=False)
+    job_id = Column(Integer, nullable=False)
+
+    match_score = Column(Integer, nullable=False)
+    summary = Column(Text, nullable=False)
+
+    matched_requirements = Column(JSON, default=list, nullable=False)
+    missing_requirements = Column(JSON, default=list, nullable=False)
+
+    strengths = Column(JSON, default=list, nullable=False)
+    concerns = Column(JSON, default=list, nullable=False)
+
+    recommendation = Column(String(100), nullable=False)
+
+    evaluated_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now()
+    )
